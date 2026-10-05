@@ -1,5 +1,8 @@
-require('dotenv').config();
-const mysql = require("mysql2");
+//require('dotenv').config();
+//const mysql = require("mysql2");
+import dotenv from 'dotenv';
+import mysql from 'mysql2';
+dotenv.config();
 
 
 const dbUser = process.env.DB_USER;
@@ -9,6 +12,7 @@ const dbPort = process.env.DB_PORT;
 const dbName = process.env.DB_DATABASE;
 const dbLimit = process.env.DB_CONNECTION_LIMIT;
 const port = process.env.PORT;
+
 
 //Creates the connection pool
 const pool = mysql.createPool({
@@ -21,4 +25,5 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-module.exports = pool;
+
+export default pool;

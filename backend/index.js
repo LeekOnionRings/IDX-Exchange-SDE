@@ -1,12 +1,13 @@
 import express from 'express';
 import pool from './db.js';
+import cors from 'cors';
 //const pool = require('./db');
 
 
-//Variables
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000; 
 const app = express(); //API
 app.use(express.json());
+app.use(cors());
 
 
 //Example to check if it's working
@@ -17,10 +18,10 @@ function(err, results, fields) {
 });*/
 
 
-app.get('/', (req, res) => {
-    res.json({message: 'ok'});
+app.listen(port, () => {
+    console.log(`API listening at http: localhost:${port}`);
 });
 
-app.listen(port, () => {
-    console.log('API listening at http: localhost:${port}');
+app.get('/', (req, res) => {
+  res.send('Hello world!!');
 });

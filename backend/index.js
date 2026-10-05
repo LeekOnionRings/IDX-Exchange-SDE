@@ -18,10 +18,22 @@ function(err, results, fields) {
 });*/
 
 
-app.listen(port, () => {
-    console.log(`API listening at http: localhost:${port}`);
+app.get('/api/health', async (req, res) => {
+    try {
+        await pool.query('SELECT 1');
+        res.status(200).json({
+            status: "ok",
+            database: "connected",
+        })
+    } catch (error) {
+        console.error("Caught an ERROR: " + error.message);
+        res.status(500).json({
+            status: "error",
+            database: "disconnected",
+        })
+    }
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello world!!');
+app.listen(port, () => {
+    console.log(`API listening at http: localhost:${port}`);
 });

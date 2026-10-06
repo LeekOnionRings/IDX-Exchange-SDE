@@ -1,13 +1,16 @@
 import express from 'express';
-import pool from './db.js';
+import pool from './db/db.js';
 import cors from 'cors';
-//const pool = require('./db');
+import propertiesRouter from './routes/properties.js';
 
 
 const port = process.env.PORT || 5000; 
-const app = express(); //API
+const app = express(); 
 app.use(express.json());
 app.use(cors());
+
+//Mounting the properties route at /api/properties
+app.use('/api/properties', propertiesRouter);
 
 
 //Example to check if it's working
@@ -17,6 +20,10 @@ function(err, results, fields) {
     console.log(results);
 });*/
 
+
+app.listen(port, () => {
+    console.log(`API listening at http: localhost:${port}`);
+});
 
 app.get('/api/health', async (req, res) => {
     try {
@@ -34,6 +41,3 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`API listening at http: localhost:${port}`);
-});

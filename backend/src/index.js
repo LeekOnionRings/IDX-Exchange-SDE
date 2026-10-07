@@ -8,17 +8,8 @@ const port = process.env.PORT || 5000;
 const app = express(); 
 app.use(express.json());
 app.use(cors());
-
-//Mounting the properties route at /api/properties
+    //Mounting the properties route at /api/properties
 app.use('/api/properties', propertiesRouter);
-
-
-//Example to check if it's working
-/*pool.query('SELECT * FROM rets_openhouse WHERE L_ListingID = 1190952876',
-function(err, results, fields) {
-    if(err) throw err;
-    console.log(results);
-});*/
 
 
 app.listen(port, () => {

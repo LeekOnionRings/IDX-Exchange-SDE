@@ -14,13 +14,21 @@ propertiesRouter.get('/', async (req, res) => {
         const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
         const page = Math.floor(offset/limit) + 1;
 
-        const [properties] = await pool.query(
+        const [results] = await pool.query(
             `SELECT * 
             FROM rets_property 
             ORDER BY id
             LIMIT ? OFFSET ?;`, 
             [limit, offset]
         );
+
+
+        //Filtering
+        const filter = {};
+        const zipcode = req.query.zipcode;
+        if(zipcode) {
+            //filter.push(zipcode);
+        }
 
         //Returns total count - needs to be adjusted so it only returns total for current search
         const [total] = await pool.query(
@@ -29,12 +37,10 @@ propertiesRouter.get('/', async (req, res) => {
 
         //Displays data
         res.json({  
-            pagination: {
-                total,
-                limit,
-                offset,
-            },
-            data: properties,
+            total,
+            limit,
+            offset,
+            results,
         })
 
 

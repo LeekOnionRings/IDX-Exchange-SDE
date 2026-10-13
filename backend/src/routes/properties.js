@@ -10,10 +10,18 @@ propertiesRouter.get('/', async (req, res) => {
         
         //Pagination (limit and offset query params)
         const limit = Math.max(parseInt(req.query.limit, 10) || 20, 1);
-        if(isNaN(req.query.limit) || req.query.limit < 1 || req.query.limit > 199) { return res.status(400).json({ error: "limit is outside the valid range (1-199)" })}
+        if(req.query.limit) {
+            if(isNaN(req.query.limit) || req.query.limit < 1 || req.query.limit > 199) { 
+                return res.status(400).json({ error: "limit is outside the valid range (1-199)" })
+            }
+        }
         const offset = Math.max(parseInt(req.query.offset, 10) || 0, 0);
-        if(isNaN(req.query.offset) || req.query.offset < 0) { return res.status(400).json({ error: "offset must be a positive number" })}
-
+        if(req.query.offset) {
+            if(isNaN(req.query.offset) || req.query.offset < 0) { 
+                return res.status(400).json({ error: "offset must be a positive number" })
+            }
+        }
+        
         //Filtering
         const filter = [];
         const params = [];

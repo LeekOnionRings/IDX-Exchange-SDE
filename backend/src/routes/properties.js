@@ -4,6 +4,29 @@ import pool from '../db/db.js'
 
 const propertiesRouter = express.Router();
 
+
+propertiesRouter.get('/:id', async (req, res) => {
+    
+    try {
+
+        const ID = req.params.id;
+        const [propertyObject] = await pool.query(
+            `SELECT * FROM rets_property WHERE L_ListingID = ?`, [ID]
+        );
+        
+        if(propertyObject.length === 0) { return res.status(404).json({ error: "Check your ID, unable to find a property." }); } 
+
+        res.json(
+            propertyObject[0]
+        )
+        
+    } catch (error) {
+        console.error(error);
+    }
+
+});
+
+
 propertiesRouter.get('/', async (req, res) => {
 
     try {

@@ -84,13 +84,24 @@ propertiesRouter.get('/', async (req, res) => {
             where = '';
         }
 
+
+        //Query performance before adding indexes (EXPLAIN)
+        let [showIndexBefore] = await pool.query(
+            `EXPLAIN ANALYZE
+            SELECT * FROM rets_property ${where}
+            ORDER BY id
+            LIMIT ? OFFSET ?;`, 
+            [...params, limit, offset]
+        )
+
+
         //Returns total count
         let [total] = await pool.query(
             `SELECT COUNT(*) AS total FROM rets_property ${where}`, [...params]
         )
         total = total[0].total;
 
-        //Displays final data
+        //Retrieves final data
         const [results] = await pool.query(
             `SELECT * 
             FROM rets_property ${where}
@@ -99,12 +110,31 @@ propertiesRouter.get('/', async (req, res) => {
             [...params, limit, offset]
         );
 
+
+        //Created database indexes within MySQL Workbench
+
+
+        //Query performance after adding indexes (EXPLAIN)
+        let [showIndexAfter] = await pool.query(
+            `EXPLAIN ANALYZE
+            SELECT * 
+            FROM rets_property ${where}
+            ORDER BY id
+            LIMIT ? OFFSET ?;`, 
+            [...params, limit, offset]
+        )
+
+
+        //Displays final data
         res.json({  
             total,
             limit,
             offset,
             results,
-        })
+            //showIndexBefore,
+            //showIndexAfter
+        });
+        
 
     } catch (error) {
 

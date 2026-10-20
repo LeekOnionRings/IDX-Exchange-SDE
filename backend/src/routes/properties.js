@@ -14,7 +14,9 @@ propertiesRouter.get('/:id', async (req, res) => {
             `SELECT * FROM rets_property WHERE L_ListingID = ?`, [ID]
         );
         
-        if(propertyObject.length === 0) { return res.status(404).json({ error: "Check your ID, unable to find a property." }); } 
+        //Testing: ID: 1118422731; Length: 55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555
+        if(ID.length > 100) { return res.status(400).json({ error: "Not a valid ID." })}
+        if(propertyObject.length === 0) { return res.status(404).json({ error: "Unable to find a property." }); } 
 
         res.json(
             propertyObject[0]

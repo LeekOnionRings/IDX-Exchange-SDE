@@ -5,17 +5,50 @@ import pool from '../db/db.js'
 const propertiesRouter = express.Router();
 
 
+//GET api/properties/:id/openhouses returns an array of the open house events for a property
+    //(and open houses are ordered by date and time)
+propertiesRouter.get('/:id/openhouses', async (req, res) => {
+
+    try {
+
+        const thisID = req.params.id;
+        /*const propertyCheck = await pool.query(
+            `SELECT L_ListingID FROM rets_property WHERE id = ?`, [thisID]
+        );
+
+        if(propertyCheck.length === 0) { return res.status(404).json({ error: "Unable to find a property. This is not a valid ID." }); } */
+
+
+        const [openhousesArray] = await pool.query(
+            `SELECT * FROM rets_openhouse 
+            WHERE L_ListingID = ? 
+            ORDER BY OpenHouseDate, OH_StartTime`, [thisID]
+        ) 
+
+        res.json(openhousesArray)
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Could not retrieve open houses." });
+    }
+
+});
+
+
+//GET /api/properties/:id returns the full property object or 404
 propertiesRouter.get('/:id', async (req, res) => {
     
     try {
 
         const ID = req.params.id;
+
+        //Testing: ID: 1118422731; Length: 55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555
+        if(ID.length > 50) { return res.status(400).json({ error: "ID is too big." })}
+
         const [propertyObject] = await pool.query(
             `SELECT * FROM rets_property WHERE L_ListingID = ?`, [ID]
         );
-        
-        //Testing: ID: 1118422731; Length: 55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555
-        if(ID.length > 100) { return res.status(400).json({ error: "Not a valid ID." })}
+
         if(propertyObject.length === 0) { return res.status(404).json({ error: "Unable to find a property." }); } 
 
         res.json(
@@ -23,6 +56,7 @@ propertiesRouter.get('/:id', async (req, res) => {
         )
         
     } catch (error) {
+        res.status(500).json({err: error});
         console.error(error);
     }
 

@@ -12,12 +12,16 @@ propertiesRouter.get('/:id/openhouses', async (req, res) => {
     try {
 
         const thisID = req.params.id;
-        /*const propertyCheck = await pool.query(
-            `SELECT L_ListingID FROM rets_property WHERE id = ?`, [thisID]
+            //Returns 400 if ID is malformed or oversized
+        if(isNaN(thisID)) { return res.status(400).json({ error: "These IDs must only have numbers." })}
+        if(thisID.length > 50) { return res.status(400).json({ error: "This ID is too big." })}
+
+            //Returns 404 with a helpful message for unknown IDs
+        const [propertyObj] = await pool.query(
+            `SELECT L_ListingID FROM rets_property WHERE L_ListingID = ?`, [thisID]
         );
-
-        if(propertyCheck.length === 0) { return res.status(404).json({ error: "Unable to find a property. This is not a valid ID." }); } */
-
+        
+        if(propertyObj.length === 0) { return res.status(404).json({ error: "Unknown L_ListingID. Unable to find a property's openhouse." }); } 
 
         const [openhousesArray] = await pool.query(
             `SELECT * FROM rets_openhouse 
@@ -25,11 +29,11 @@ propertiesRouter.get('/:id/openhouses', async (req, res) => {
             ORDER BY OpenHouseDate, OH_StartTime`, [thisID]
         ) 
 
-        res.json(openhousesArray)
+        res.json(openhousesArray);
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Could not retrieve open houses." });
+        res.status(500).json({ error: "Oh no! There was a problem! Could not retrieve openhouses."});
     }
 
 });
@@ -42,21 +46,24 @@ propertiesRouter.get('/:id', async (req, res) => {
 
         const ID = req.params.id;
 
-        //Testing: ID: 1118422731; Length: 55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555
+        //[Testing] Valid ID: 1118422731; Length: 55555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555555; Malformed: xyz321
+            //Returns 400 if ID is malformed or oversized
+        if(isNaN(ID)) { return res.status(400).json({ error: "IDs must only have numbers." })}
         if(ID.length > 50) { return res.status(400).json({ error: "ID is too big." })}
-
+        
         const [propertyObject] = await pool.query(
             `SELECT * FROM rets_property WHERE L_ListingID = ?`, [ID]
         );
 
-        if(propertyObject.length === 0) { return res.status(404).json({ error: "Unable to find a property." }); } 
+            //Returns 404 with a helpful message for unknown IDs
+        if(propertyObject.length === 0) { return res.status(404).json({ error: "Unknown ID. Unable to find a property." }); } 
 
         res.json(
             propertyObject[0]
         )
         
     } catch (error) {
-        res.status(500).json({err: error});
+        res.status(500).json({error: "Oh no! There was a problem retrieving the properties!" + error});
         console.error(error);
     }
 

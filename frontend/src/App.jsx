@@ -1,13 +1,15 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+//import { useState } from 'react'
+//import heroImg from './assets/hero.png'
+//import reactLogo from './assets/react.svg'
+//import viteLogo from './assets/vite.svg'
 import './App.css'
+import { fetchProperties } from './api/client'
+//import { useEffect } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
+  //const [count, setCount] = useState(0)
+  
+  /*return (
     <>
       <section id="center">
         <div className="hero">
@@ -116,7 +118,25 @@ function App() {
       <div className="ticks"></div>
       <section id="spacer"></section>
     </>
+  )*/
+
+  /*useEffect(() => {
+    const data = fetchProperties();
+    console.log(data);
+  }, []);*/
+
+  const getData = async () => {
+    const properties = await fetchProperties();
+    console.log("Running getData: ", properties);
+  };
+  getData();
+
+  return(
+    <div>
+      App
+    </div>
   )
+
 }
 
 export default App

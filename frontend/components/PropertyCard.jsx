@@ -12,7 +12,7 @@ function PropertyCard( {property} ) {
 
 
     return(
-        <div className="flex flex-col bg-white overflow-hidden">
+        <div className="flex flex-col bg-white overflow-hidden hover:bg-sky-700">
             {firstImage ? (
                 <img 
                 src={firstImage}

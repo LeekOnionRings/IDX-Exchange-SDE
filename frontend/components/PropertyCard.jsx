@@ -1,9 +1,11 @@
-function PropertyCard( {property} ) {
+function PropertyCard({property}) {
 
+    //Since L_Photos is stored as a JSON string in the database, use JSON.parse to convert it into an array
     let firstImage = "";
     try {
+        //Checks if there's a valid array and if there is, displays first photo
         const images = JSON.parse(property.L_Photos ?? "[]");
-        if(images.length > 0) {
+        if(Array.isArray(images) && images.length > 0) {
             firstImage = images[0];
         }
     } catch(error) {
@@ -11,6 +13,7 @@ function PropertyCard( {property} ) {
     }
 
 
+    //Returns a single property card displaying property count, price, address, etc.
     return(
         <div className="flex flex-col bg-white overflow-hidden hover:bg-sky-700">
             {firstImage ? (
@@ -23,7 +26,7 @@ function PropertyCard( {property} ) {
             )}
 
         <div className="flex flex-col p-3">
-            <div>{property.L_SystemPrice}</div>
+            <div>Price: ${property.L_SystemPrice}</div>
             <div>{property.L_Address}</div>
             <div>{property.L_City}, {property.L_State}</div>
             <div>{property.L_Keyword2} beds</div>

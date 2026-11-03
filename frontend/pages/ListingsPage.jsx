@@ -1,4 +1,5 @@
 import PropertyCard from "../components/PropertyCard";
+import PropertyFilters from "../components/PropertyFilters";
 import { fetchProperties } from "../src/api/client";
 import { useState, useEffect } from "react";
 
@@ -10,21 +11,31 @@ function ListingsPage() {
     const [loadingState, setLoadingState] = useState(true);
     const [errorState, setErrorState] = useState(null);
 
-    const params = { limit: 20, offset: 0 };
-
+    const [query, setQuery] = useState({
+        //city: "",
+        zipCode: 0,
+        //minPrice: 0,
+        //maxPrice: 0,
+        beds: 0,
+        //baths: 0
+    });
+    
+    //const params = { limit: 20, offset: 0 };
+    
     useEffect(() => {
         async function loadFunction() {
             try {
                 setLoadingState(true);
                 setErrorState(null);
-                const data = await fetchProperties(params);
+                    //Gets the properties and sets them with setProperties and setTotal
+                const data = await fetchProperties(query);
                 if(!data) {
                     throw new Error("No data returned from fetchProperties!");
                 }
                 setProperties(data.results);
                 setTotal(data.total);
             } catch(error) {
-                console.error("Can't load properties oops: ", error);
+                setErrorState("Can't load properties oops: ", error);
             } finally {
                 setLoadingState(false);
             }
@@ -38,15 +49,24 @@ function ListingsPage() {
     
     return(
         
-        <div>Showing {properties.length} of {total} properties
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {properties.map((prop) => (
-                <PropertyCard key={prop.id} property={prop} />
-            ))}
-        </div>
+        <>
 
-        </div>
+      
+        <PropertyFilters query={query} setQuery={setQuery}></PropertyFilters>
+        
+
+        {!loadingState && !errorState && (
+            <div>Showing {properties.length} of {total} properties</div>
+        )}
+        
+        {!loadingState && !errorState && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {properties.map((prop) => (
+                    <PropertyCard key={prop.id} property={prop} />
+                ))}
+            </div>
+        )}
+        </>
         
     )
 

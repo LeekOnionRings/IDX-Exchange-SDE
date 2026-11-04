@@ -8,6 +8,17 @@ function PropertyFilters({ query, setQuery, setClickID }) {
         setClickID(true);
     };
 
+    const handleClear = () => {
+        setQuery({...query,
+            city: '',
+            zipcode: '',
+            minPrice: '',
+            maxPrice: '',
+            beds: '',
+            baths: '',
+        });
+    };
+
     //Baths and beds will be changed to dropdown
     return(
         <>
@@ -54,13 +65,24 @@ function PropertyFilters({ query, setQuery, setClickID }) {
                     onChange={(e) => setQuery({...query, baths: e.target.value})}
                 /> 
 
+                <div className="flex justify-around">
                 <button 
-                    className="border"
+                    className="search-button border"
                     type="button"  
                     onClick={handleSubmit} 
                 >   
                     SEARCH
                 </button>
+
+                <button
+                    className="clear-button border"
+                    type="button"
+                    onClick={handleClear}
+                >
+                    CLEAR
+                </button>
+                </div>
+
             </form>
             
             {/*<label className="search-input-label" htmlFor="search">

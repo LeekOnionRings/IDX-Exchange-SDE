@@ -12,19 +12,25 @@ function ListingsPage() {
     const [errorState, setErrorState] = useState(null);
 
     const [query, setQuery] = useState({
-        //city: "",
-        zipCode: 0,
-        //minPrice: 0,
-        //maxPrice: 0,
-        beds: 0,
-        //baths: 0
+        city: '',
+        zipcode: '',
+        minPrice: '',
+        maxPrice: '',
+        beds: '',
+        baths: '',
+        limit: 20,
+        offset: 0
     });
-    
     //const params = { limit: 20, offset: 0 };
-    
+
+    const [clickID, setClickID] = useState(false);
+
     useEffect(() => {
         async function loadFunction() {
             try {
+
+                setClickID(false);
+
                 setLoadingState(true);
                 setErrorState(null);
                     //Gets the properties and sets them with setProperties and setTotal
@@ -41,7 +47,7 @@ function ListingsPage() {
             }
         }
         loadFunction();
-    }, []);
+    }, [clickID]);
 
     if(loadingState) return <div>LOADING...</div>
     if(errorState) return <div>ERROR: {errorState}</div>
@@ -51,9 +57,9 @@ function ListingsPage() {
         
         <>
 
-      
-        <PropertyFilters query={query} setQuery={setQuery}></PropertyFilters>
-        
+        {!loadingState && !errorState && (
+            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
+        )}
 
         {!loadingState && !errorState && (
             <div>Showing {properties.length} of {total} properties</div>

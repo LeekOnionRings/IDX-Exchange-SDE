@@ -1,4 +1,4 @@
-import ListingsPage from '../pages/ListingsPage'
+import ListingsPage from './pages/ListingsPage'
 import './App.css'
 
 

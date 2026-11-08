@@ -53,7 +53,7 @@ function PropertyFilters({ query, setQuery, setClickID }) {
                 <div className="flex">
 
                     <div>Beds:</div>
-                    <select onInput={
+                    <select onChange={
                         (e) => {
                             const v = e.target.value;
                             //If v is 10plus, set beds to 10 else set beds to the number as usual
@@ -74,11 +74,11 @@ function PropertyFilters({ query, setQuery, setClickID }) {
                     </select>
 
                     <div>Baths:</div>
-                    <select onInput={
+                    <select onChange={
                         (e) => {
                             const v = e.target.value;
                             //If v is 10plus, set baths to 10 else set baths to the number as usual
-                            setQuery({...query, baths: v === "10plus" ? 10 : Number(v)})
+                            setQuery({...query, baths: v === "10plus" ? 10 : Number(v)});
                         }
                     }>
                         <option value={''}></option>

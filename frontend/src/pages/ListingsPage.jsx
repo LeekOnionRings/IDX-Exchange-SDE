@@ -1,6 +1,6 @@
 import PropertyCard from "../components/PropertyCard";
 import PropertyFilters from "../components/PropertyFilters";
-import { fetchProperties } from "../src/api/client";
+import { fetchProperties } from "../api/client";
 import { useState, useEffect } from "react";
 
 
@@ -57,21 +57,26 @@ function ListingsPage() {
         
         <>
 
-        {!loadingState && !errorState && (
+        {!loadingState && !errorState && properties.length === 0 && (
+            <>
             <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
+            <div>Showing {properties.length} of {total} properties</div>
+            <div>No properties available! Try searching for something else!</div>
+            </>
         )}
 
-        {!loadingState && !errorState && (
+        {!loadingState && !errorState && properties.length > 0 && (
+            <>
+            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
             <div>Showing {properties.length} of {total} properties</div>
-        )}
-        
-        {!loadingState && !errorState && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {properties.map((prop) => (
                     <PropertyCard key={prop.id} property={prop} />
                 ))}
             </div>
-        )}
+            </>
+        )} 
+
         </>
         
     )

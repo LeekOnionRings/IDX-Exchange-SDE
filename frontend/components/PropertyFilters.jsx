@@ -1,5 +1,3 @@
-
-
 function PropertyFilters({ query, setQuery, setClickID }) {
 
     const handleSubmit = async (e) => {
@@ -19,7 +17,6 @@ function PropertyFilters({ query, setQuery, setClickID }) {
         });
     };
 
-    //Baths and beds will be changed to dropdown
     return(
         <>
 
@@ -53,17 +50,51 @@ function PropertyFilters({ query, setQuery, setClickID }) {
                     onChange={(e) => setQuery({...query, maxPrice: e.target.value})}
                 />  
 
-                <input
-                    name="beds"
-                    placeholder="(beds) ex: 2" 
-                    onChange={(e) => setQuery({...query, beds: e.target.value})}
-                /> 
+                <div className="flex">
 
-                <input
-                    name="baths"
-                    placeholder="(baths) ex: 3" 
-                    onChange={(e) => setQuery({...query, baths: e.target.value})}
-                /> 
+                    <div>Beds:</div>
+                    <select onInput={
+                        (e) => {
+                            const v = e.target.value;
+                            //If v is 10plus, set beds to 10 else set beds to the number as usual
+                            setQuery({...query, beds: v === "10plus" ? 10 : Number(v)})
+                        }
+                    }>
+                        <option value={''}></option>
+                        <option value={1}>1</option>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                        <option value={5}>5</option>
+                        <option value={6}>6</option>
+                        <option value={7}>7</option>
+                        <option value={8}>8</option>
+                        <option value={9}>9</option>
+                        <option value={"10plus"}>10+</option>
+                    </select>
+
+                    <div>Baths:</div>
+                    <select onInput={
+                        (e) => {
+                            const v = e.target.value;
+                            //If v is 10plus, set baths to 10 else set baths to the number as usual
+                            setQuery({...query, baths: v === "10plus" ? 10 : Number(v)})
+                        }
+                    }>
+                        <option value={''}></option>
+                        <option value={1}>1</option>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                        <option value={5}>5</option>
+                        <option value={6}>6</option>
+                        <option value={7}>7</option>
+                        <option value={8}>8</option>
+                        <option value={9}>9</option>
+                        <option value={"10plus"}>10+</option>
+                    </select>
+
+                </div>
 
                 <div className="flex justify-around">
                 <button 
@@ -84,17 +115,6 @@ function PropertyFilters({ query, setQuery, setClickID }) {
                 </div>
 
             </form>
-            
-            {/*<label className="search-input-label" htmlFor="search">
-                <input
-                    className="search-input"
-                    type="search"
-                    name="search"
-                    id="search"
-                    placeholder="Search..."
-                    required
-                />
-            </label>*/}
 
         </div>
         </>
@@ -102,4 +122,4 @@ function PropertyFilters({ query, setQuery, setClickID }) {
 
 }
 
-export default PropertyFilters
+export default PropertyFilters;

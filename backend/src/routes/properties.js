@@ -125,22 +125,39 @@ propertiesRouter.get('/', async (req, res) => {
             
         }
 
+
+        //Beds / baths will have different behavior based on what the user clicks on the filter
+        let bedCond = null;
+        let bathCond = null;
+
         if(req.query.beds) {
+
             if(isNaN(req.query.beds) || req.query.beds < 0) {
                 return res.status(400).json({ error: "beds must be a positive number" }) 
-            } else {
+            } /*else {
                 filter.push('L_Keyword2 = ?');
                 params.push(req.query.beds);
-            }
+            }*/
+
+            bedCond = req.query.beds >= 10 ? 'L_Keyword2 >= ?' : 'L_Keyword2 = ?';
+            filter.push(bedCond)
+            params.push(req.query.beds);
+
         }
 
         if(req.query.baths) {
+
             if(isNaN(req.query.baths) || req.query.baths < 0) {
                 return res.status(400).json({ error: "baths must be a positive number" }) 
-            } else {
+            } /*else {
                 filter.push('LM_Dec_3 = ?');
                 params.push(req.query.baths);
-            }   
+            }*/
+           
+            bathCond = req.query.baths >= 10 ? 'LM_Dec_3 >= ?' : 'LM_Dec_3 = ?';
+            filter.push(bathCond);
+            params.push(req.query.baths);
+                
         }
 
         let where = '';

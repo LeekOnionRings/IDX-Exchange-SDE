@@ -15,6 +15,7 @@ function PropertyFilters({ query, setQuery, setClickID }) {
             beds: '',
             baths: '',
         });
+        setClickID(true);
     };
 
     return(
@@ -23,37 +24,47 @@ function PropertyFilters({ query, setQuery, setClickID }) {
         <div className="flex flex-row">
 
             <form>
+                <label htmlFor="city-filter">City</label>
                 <input
+                    id="city-filter"
                     name="city"
-                    placeholder="(city) ex: Irvine"
+                    placeholder=" ex: Irvine"
                     onChange={(e) => setQuery({...query, city: e.target.value})}
                 />  
 
+                <label htmlFor="zipcode-filter">Zipcode</label>
                 <input
+                    id="zipcode-filter"
                     name="zipCode"
-                    placeholder="(zipcode) ex: 90210"
+                    placeholder=" ex: 90210"
                     inputMode="numeric"
                     onChange={(e) => setQuery({...query, zipcode: e.target.value})}
                 />  
 
+                <label htmlFor="minPrice-filter">Min Price</label>
                 <input
+                    id="minPrice-filter"
                     name="minPrice"
-                    placeholder="(minPrice) ex: 3750000"
+                    placeholder=" ex: 3750000"
                     inputMode="numeric"
                     onChange={(e) => setQuery({...query, minPrice: e.target.value})}
                 />
 
+                <label htmlFor="maxPrice-filter">Max Price</label>
                 <input
+                    id="maxPrice-filter"
                     name="maxPrice"
-                    placeholder="(maxPrice) ex: 3750000"
+                    placeholder=" ex: 3750000"
                     inputMode="numeric"
                     onChange={(e) => setQuery({...query, maxPrice: e.target.value})}
                 />  
 
                 <div className="flex">
 
-                    <div>Beds:</div>
-                    <select onChange={
+                    <label htmlFor="beds-filter">Beds</label>
+                    <select    
+                        id="beds-filter"
+                        onChange={
                         (e) => {
                             const v = e.target.value;
                             //If v is 10plus, set beds to 10 else set beds to the number as usual
@@ -73,8 +84,10 @@ function PropertyFilters({ query, setQuery, setClickID }) {
                         <option value={"10plus"}>10+</option>
                     </select>
 
-                    <div>Baths:</div>
-                    <select onChange={
+                    <label htmlFor="baths-filter">Baths</label>
+                    <select 
+                        id="baths-filter"
+                        onChange={
                         (e) => {
                             const v = e.target.value;
                             //If v is 10plus, set baths to 10 else set baths to the number as usual
@@ -98,7 +111,7 @@ function PropertyFilters({ query, setQuery, setClickID }) {
 
                 <div className="flex justify-around">
                 <button 
-                    className="search-button border"
+                    className="search-button border hover:bg-sky-500"
                     type="button"  
                     onClick={handleSubmit} 
                 >   
@@ -106,7 +119,7 @@ function PropertyFilters({ query, setQuery, setClickID }) {
                 </button>
 
                 <button
-                    className="clear-button border"
+                    className="clear-button border hover:bg-sky-500"
                     type="button"
                     onClick={handleClear}
                 >

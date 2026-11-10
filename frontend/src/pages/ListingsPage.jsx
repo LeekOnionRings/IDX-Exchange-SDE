@@ -30,18 +30,27 @@ function ListingsPage() {
             try {
 
                 setClickID(false);
-
                 setLoadingState(true);
                 setErrorState(null);
-                    //Gets the properties and sets them with setProperties and setTotal
-                const data = await fetchProperties(query);
+
+                //Cleans query so empty filter values aren't sent to API
+                const cleanedQuery = Object.fromEntries(
+                    Object.entries(query).filter(
+                        ([key, value]) => value !== '' && value !== null && value !== undefined
+                    )
+                );
+                cleanedQuery.limit = query.limit;
+                cleanedQuery.offset = query.offset;
+
+                //Gets the properties and sets them with setProperties and setTotal
+                const data = await fetchProperties(cleanedQuery);
                 if(!data) {
                     throw new Error("No data returned from fetchProperties!");
                 }
                 setProperties(data.results);
                 setTotal(data.total);
             } catch(error) {
-                setErrorState("Can't load properties oops: ", error);
+                setErrorState("Can't load properties :(", error);
             } finally {
                 setLoadingState(false);
             }
@@ -50,8 +59,13 @@ function ListingsPage() {
     }, [clickID]);
 
     if(loadingState) return <div>LOADING...</div>
-    if(errorState) return <div>ERROR: {errorState}</div>
-
+    if(errorState) return (
+        <>
+        <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
+        <div>ERROR: {errorState}</div>
+        <div>Please enter valid input!</div>
+        </>
+    )
     
     return(
         

@@ -44,25 +44,28 @@ function PropertyFilters({ query, setQuery, setClickID, setCurrentPage }) {
                     onChange={(e) => setQuery({...query, zipcode: e.target.value})}
                 />  
 
-                <label htmlFor="minPrice-filter">Min Price</label>
-                <input
-                    id="minPrice-filter"
-                    name="minPrice"
-                    placeholder=" ex: 3750000"
-                    inputMode="numeric"
-                    onChange={(e) => setQuery({...query, minPrice: e.target.value})}
-                />
+                
+                    <label htmlFor="minPrice-filter">Minimum Price </label>
+                    <input
+                        id="minPrice-filter"
+                        name="minPrice"
+                        placeholder=" ex: 3750000"
+                        inputMode="numeric"
+                        onChange={(e) => setQuery({...query, minPrice: e.target.value})}
+                    />
 
-                <label htmlFor="maxPrice-filter">Max Price</label>
-                <input
-                    id="maxPrice-filter"
-                    name="maxPrice"
-                    placeholder=" ex: 3750000"
-                    inputMode="numeric"
-                    onChange={(e) => setQuery({...query, maxPrice: e.target.value})}
-                />  
+                    <div>
+                    <label htmlFor="maxPrice-filter">Maximum Price </label>
+                    <input
+                        id="maxPrice-filter"
+                        name="maxPrice"
+                        placeholder=" ex: 3750000"
+                        inputMode="numeric"
+                        onChange={(e) => setQuery({...query, maxPrice: e.target.value})}
+                    />  
+                    </div>
 
-                <div className="flex">
+                <div className="">
 
                     <label htmlFor="beds-filter">Beds</label>
                     <select    

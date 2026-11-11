@@ -93,19 +93,20 @@ function ListingsPage() {
             <>
 
             <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
-
             <div>Showing {properties.length} of {total} properties</div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {properties.map((prop) => (
-                    <PropertyCard key={prop.id} property={prop} />
-                ))}
+            <div onClick={() => console.log("Clicked a property")} className="cursor-pointer">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    {properties.map((prop) => (
+                        <PropertyCard key={prop.id} property={prop} />
+                    ))}
+                </div>
             </div>
 
             <Pagination currentPage={currentPage} totalProperties={total} itemsPerPage={itemsPerPage} onPageChange={onPageChange}></Pagination>
 
             </>
         )} 
-
+    
         </>
         
     )

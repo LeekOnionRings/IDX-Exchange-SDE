@@ -31,7 +31,7 @@ function PropertyCard({property}) {
             <div>{property.L_Address}</div>
             <div>{property.L_City}, {property.L_State}, {property.L_Zip}</div>
             <div>{property.L_Keyword2} beds</div>
-            <div>{property.LM_Dec_3} baths</div>
+            <div>{parseInt(property.LM_Dec_3)} baths</div>
             <div>{property.LM_Int2_3} sq ft</div>
         </div>
 

@@ -12,7 +12,7 @@ const getPages = (currentPage, totalPages) => {
 
     //First page
     pages.push(firstPage);
-        //Add allipses if a gap exists
+        //Add ellipses if a gap exists
     if(Math.abs(firstPage - previousPage) > 1) {
         pages.push("...");
     }
@@ -82,7 +82,6 @@ function Pagination({ currentPage, totalProperties, itemsPerPage, onPageChange }
         }
     }
 
-    //className={`border p-3 cursor-pointer ${thisPage === currentPage ? 'active' : null} active:bg-violet-600`}
     return(
         <div className="flex items-center justify-center">
             <ul className="flex gap-6 list-none">

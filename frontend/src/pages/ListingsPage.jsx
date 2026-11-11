@@ -71,7 +71,7 @@ function ListingsPage() {
     if(loadingState) return <div>LOADING...</div>
     if(errorState) return (
         <>
-        <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
+        <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
         <div>ERROR: {errorState}</div>
         <div>Please enter valid input!</div>
         </>
@@ -83,7 +83,7 @@ function ListingsPage() {
 
         {!loadingState && !errorState && properties.length === 0 && (
             <>
-            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
+            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
             <div>Showing {properties.length} of {total} properties</div>
             <div>No properties available! Try searching for something else!</div>
             </>
@@ -92,7 +92,7 @@ function ListingsPage() {
         {!loadingState && !errorState && properties.length > 0 && (
             <>
 
-            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
+            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
 
             <div>Showing {properties.length} of {total} properties</div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

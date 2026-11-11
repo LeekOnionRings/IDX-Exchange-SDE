@@ -1,8 +1,9 @@
-function PropertyFilters({ query, setQuery, setClickID }) {
+function PropertyFilters({ query, setQuery, setClickID, setCurrentPage }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Button clicked");
+        setCurrentPage(1);
         setClickID(true);
     };
 
@@ -14,7 +15,9 @@ function PropertyFilters({ query, setQuery, setClickID }) {
             maxPrice: '',
             beds: '',
             baths: '',
+            offset: 0
         });
+        setCurrentPage(1);
         setClickID(true);
     };
 

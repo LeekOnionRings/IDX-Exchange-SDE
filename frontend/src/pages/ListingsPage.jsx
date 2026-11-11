@@ -25,7 +25,8 @@ function ListingsPage() {
 
     //Pagination variables
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [itemsPerPage] = useState(20);
+
     const onPageChange = (page) => {
         setCurrentPage(page);
     }
@@ -48,7 +49,7 @@ function ListingsPage() {
                     )
                 );
                 cleanedQuery.limit = query.limit;
-                cleanedQuery.offset = query.offset;
+                cleanedQuery.offset = (currentPage - 1) * itemsPerPage;
 
                 //Gets the properties and sets them with setProperties and setTotal
                 const data = await fetchProperties(cleanedQuery);
@@ -57,6 +58,7 @@ function ListingsPage() {
                 }
                 setProperties(data.results);
                 setTotal(data.total);
+
             } catch(error) {
                 setErrorState("Can't load properties :(", error);
             } finally {
@@ -64,7 +66,7 @@ function ListingsPage() {
             }
         }
         loadFunction();
-    }, [clickID]);
+    }, [clickID, currentPage]);
 
     if(loadingState) return <div>LOADING...</div>
     if(errorState) return (
@@ -90,15 +92,17 @@ function ListingsPage() {
         {!loadingState && !errorState && properties.length > 0 && (
             <>
 
-            <Pagination currentPage={currentPage} totalProperties={total} itemsPerPage={itemsPerPage} onPageChange={onPageChange}></Pagination>
-
             <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
+
             <div>Showing {properties.length} of {total} properties</div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {properties.map((prop) => (
                     <PropertyCard key={prop.id} property={prop} />
                 ))}
             </div>
+
+            <Pagination currentPage={currentPage} totalProperties={total} itemsPerPage={itemsPerPage} onPageChange={onPageChange}></Pagination>
+
             </>
         )} 
 

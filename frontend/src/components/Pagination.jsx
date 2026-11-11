@@ -1,26 +1,73 @@
+const getPages = (currentPage, totalPages) => {
+
+    if(totalPages === 1) {
+        return [1];
+    }
+
+    const pages = [];
+    const firstPage = 1;
+    const lastPage = totalPages;
+    const previousPage = currentPage - 1;
+    const nextPage = currentPage + 1;
+
+    //First page
+    pages.push(firstPage);
+        //Add allipses if a gap exists
+    if(Math.abs(firstPage - previousPage) > 1) {
+        pages.push("...");
+    }
+
+    //Previous page (shown only if previous page is greater than the first page)
+    if(firstPage < previousPage) {
+        pages.push(previousPage);
+    }
+
+    //Current page (so we don't render duplicates of current page)
+    if(currentPage !== firstPage && currentPage !== lastPage) {
+        pages.push(currentPage);
+    }
+
+    //Next page (show next page when it's not last page)
+    if(nextPage < lastPage) {
+        pages.push(nextPage);
+    }
+
+    //Check and add more ellipsis
+    if(Math.abs(nextPage - lastPage) > 1) {
+        pages.push("...");
+    }
+
+    //Last page
+    pages.push(lastPage);
+
+    return pages;
+
+}
+
+
 function Pagination({ currentPage, totalProperties, itemsPerPage, onPageChange }) {
 
     const totalPages = Math.ceil(totalProperties/itemsPerPage);
 
     //Displays page amount based on filter results
     const generatePages = () => {
-        const links = [];
-        for(let i = 0; i < totalPages; i++) {
-            const thisPage = i + 1;
-            links.push(
-                <li 
-                    key={thisPage}
+
+        return getPages(currentPage, totalPages).map((element, index) => {
+            return(
+                <li key={element + index} 
+                    className={`border p-3 cursor-pointer ${element === currentPage ? 'bg-violet-600' : ''}`}
                     onClick={() => {
-                        onPageChange(thisPage);
+                        if(!isNaN(element)) {
+                            onPageChange(element);
+                        }
                     }}
-                    //Clicked page (thisPage) will light up purple
-                    className={`border p-3 cursor-pointer ${thisPage === currentPage ? 'bg-violet-600' : ''}`}
                 >
-                    {thisPage}
+                    {element}
                 </li>
-            );
-        } 
-        return links;
+            )
+            
+        })
+
     }
 
     const onPrevious = () => {

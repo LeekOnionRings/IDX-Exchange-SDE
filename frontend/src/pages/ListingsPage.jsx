@@ -1,5 +1,6 @@
 import PropertyCard from "../components/PropertyCard";
 import PropertyFilters from "../components/PropertyFilters";
+import Pagination from "../components/Pagination";
 import { fetchProperties } from "../api/client";
 import { useState, useEffect } from "react";
 
@@ -22,10 +23,15 @@ function ListingsPage() {
         offset: 0
     });
 
-    const [clickID, setClickID] = useState(false);
-
+    //Pagination variables
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const onPageChange = (page) => {
+        setCurrentPage(page);
+    }
+
+    //Filter variables
+    const [clickID, setClickID] = useState(false);
 
     useEffect(() => {
         async function loadFunction() {
@@ -83,6 +89,9 @@ function ListingsPage() {
 
         {!loadingState && !errorState && properties.length > 0 && (
             <>
+
+            <Pagination currentPage={currentPage} totalProperties={total} itemsPerPage={itemsPerPage} onPageChange={onPageChange}></Pagination>
+
             <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID}></PropertyFilters>
             <div>Showing {properties.length} of {total} properties</div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

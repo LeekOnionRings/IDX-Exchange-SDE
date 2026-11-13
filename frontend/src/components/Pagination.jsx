@@ -1,6 +1,7 @@
-const getPages = (currentPage, totalPages) => {
+const getPages = (currentPage, totalPages, setIsPaginationHidden) => {
 
     if(totalPages === 1) {
+        setIsPaginationHidden(true);
         return [1];
     }
 
@@ -45,14 +46,12 @@ const getPages = (currentPage, totalPages) => {
 }
 
 
-function Pagination({ currentPage, totalProperties, itemsPerPage, onPageChange }) {
-
-    const totalPages = Math.ceil(totalProperties/itemsPerPage);
+function Pagination({ currentPage, totalPages, onPageChange, setIsPaginationHidden }) {
 
     //Displays page amount based on filter results
     const generatePages = () => {
 
-        return getPages(currentPage, totalPages).map((element, index) => {
+        return getPages(currentPage, totalPages, setIsPaginationHidden).map((element, index) => {
             return(
                 <li key={element + index} 
                     className={`border p-3 cursor-pointer ${element === currentPage ? 'bg-violet-600' : ''}`}

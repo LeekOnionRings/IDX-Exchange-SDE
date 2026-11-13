@@ -26,13 +26,16 @@ function ListingsPage() {
     //Pagination variables
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(20);
-
+    const [isPaginationHidden, setIsPaginationHidden] = useState(false);
+    const allPages = Math.ceil(total/itemsPerPage);
+    
     const onPageChange = (page) => {
         setCurrentPage(page);
     }
 
     //Filter variables
     const [clickID, setClickID] = useState(false);
+
 
     useEffect(() => {
         async function loadFunction() {
@@ -41,6 +44,7 @@ function ListingsPage() {
                 setClickID(false);
                 setLoadingState(true);
                 setErrorState(null);
+                setIsPaginationHidden(false);
 
                 //Cleans query so empty filter values aren't sent to API
                 const cleanedQuery = Object.fromEntries(
@@ -68,6 +72,7 @@ function ListingsPage() {
         loadFunction();
     }, [clickID, currentPage]);
 
+
     if(loadingState) return <div>LOADING...</div>
     if(errorState) return (
         <>
@@ -77,9 +82,11 @@ function ListingsPage() {
         </>
     )
     
+
     return(
         
         <>
+
 
         {!loadingState && !errorState && properties.length === 0 && (
             <>
@@ -89,11 +96,15 @@ function ListingsPage() {
             </>
         )}
 
-        {!loadingState && !errorState && properties.length > 0 && (
+
+        {/*Hides pagination if there's only 1 page*/}
+        {!loadingState && !errorState && properties.length > 0 && isPaginationHidden && (
             <>
 
             <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
-            <div>Showing {properties.length} of {total} properties</div>
+
+            <div>Showing {(currentPage - 1) * itemsPerPage + 1}-{properties.length} of {total} properties</div>
+
             <div onClick={() => console.log("Clicked a property")} className="cursor-pointer">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     {properties.map((prop) => (
@@ -102,14 +113,35 @@ function ListingsPage() {
                 </div>
             </div>
 
-            <Pagination currentPage={currentPage} totalProperties={total} itemsPerPage={itemsPerPage} onPageChange={onPageChange}></Pagination>
+            </>
+        )} 
+
+
+        {!loadingState && !errorState && properties.length > 0 && !isPaginationHidden && (
+            <>
+
+            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
+
+            <div>Showing {(currentPage - 1) * itemsPerPage + 1}-{((currentPage - 1) * itemsPerPage + properties.length)} of {total} properties</div>
+
+            <div onClick={() => console.log("Clicked a property")} className="cursor-pointer">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    {properties.map((prop) => (
+                        <PropertyCard key={prop.id} property={prop} />
+                    ))}
+                </div>
+            </div>
+
+            <Pagination currentPage={currentPage} totalPages={allPages} onPageChange={onPageChange} setIsPaginationHidden={setIsPaginationHidden}></Pagination>
 
             </>
         )} 
     
+
         </>
         
     )
+
 
 }
 

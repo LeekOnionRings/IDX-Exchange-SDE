@@ -57,6 +57,7 @@ function Pagination({ currentPage, totalPages, onPageChange, setIsPaginationHidd
                     className={`border p-3 cursor-pointer ${element === currentPage ? 'bg-violet-600' : ''}`}
                     onClick={() => {
                         if(!isNaN(element)) {
+                            window.scrollTo(0, 0);
                             onPageChange(element);
                         }
                     }}
@@ -71,12 +72,14 @@ function Pagination({ currentPage, totalPages, onPageChange, setIsPaginationHidd
 
     const onPrevious = () => {
         if(currentPage > 1) {
+            window.scrollTo(0, 0);
             onPageChange(currentPage - 1);
         }
     };
 
     const onNext = () => {
         if(currentPage < totalPages) {
+            window.scrollTo(0, 0);
             onPageChange(currentPage + 1);
         }
     }

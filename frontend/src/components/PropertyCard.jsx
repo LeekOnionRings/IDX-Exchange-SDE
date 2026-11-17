@@ -1,12 +1,27 @@
 function PropertyCard({property}) {
 
+    const placeholderImage = "https://www.nist.gov/sites/default/files/images/2025/05/09/No%20Photo%20Available.png";
+    const onImageError = (e) => {
+        e.target.src = placeholderImage;
+    }
+
     //Since L_Photos is stored as a JSON string in the database, use JSON.parse to convert it into an array
     let firstImage = "";
     try {
-        //Checks if there's a valid array and if there is, displays first photo
+        //Checks if there's a valid array and if there is, displays first photo (returns [] if property.L_Photos is null/undefined)
         const images = JSON.parse(property.L_Photos ?? "[]");
+        console.log(images);
         if(Array.isArray(images) && images.length > 0) {
-            firstImage = images[0];
+
+            const tempFirst = images[0];
+
+            //Makes sure broken files with DOCUMENT-Pdf in their links do not display
+            if(typeof tempFirst === "string" && tempFirst.includes("DOCUMENT-Pdf")) {
+                tempFirst = "[]";
+            }
+
+            firstImage = tempFirst;
+
         }
     } catch(error) {
         console.error("Invalid L_Photos JSON: ", error)
@@ -17,14 +32,11 @@ function PropertyCard({property}) {
     return(
         
         <div className="flex flex-col bg-white overflow-hidden hover:bg-sky-700">
-            {firstImage ? (
-                <img 
-                src={firstImage}
+            <img 
+                src={firstImage ? firstImage : placeholderImage}
                 className="h-48 w-full object-cover"
-                />
-            ) : (
-                <div className="flex items-center justify-center h-48 w-full bg-gray-200">No photo available</div>
-            )}
+                onError={onImageError}
+            />
 
         <div className="flex flex-col p-3">
             <div>Price: ${property.L_SystemPrice}</div>

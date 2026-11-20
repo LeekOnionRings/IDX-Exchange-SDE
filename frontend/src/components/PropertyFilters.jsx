@@ -1,10 +1,12 @@
-function PropertyFilters({ query, setQuery, setClickID, setCurrentPage }) {
+//query, setQuery, setClickID, setCurrentPage
+function PropertyFilters({ query, setQuery, setSearchTrigger, setCurrentPage }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Button clicked");
         setCurrentPage(1);
-        setClickID(true);
+        //setClickID(true);
+        setSearchTrigger((prev) => prev + 1);
     };
 
     const handleClear = () => {
@@ -18,7 +20,8 @@ function PropertyFilters({ query, setQuery, setClickID, setCurrentPage }) {
             offset: 0
         });
         setCurrentPage(1);
-        setClickID(true);
+        //setClickID(true);
+        setSearchTrigger((prev) => prev + 1);
     };
 
     return(

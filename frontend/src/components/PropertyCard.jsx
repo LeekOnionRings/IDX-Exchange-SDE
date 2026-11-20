@@ -10,7 +10,7 @@ function PropertyCard({property}) {
     try {
         //Checks if there's a valid array and if there is, displays first photo (returns [] if property.L_Photos is null/undefined)
         const images = JSON.parse(property.L_Photos ?? "[]");
-        console.log(images);
+        //console.log(images);
         if(Array.isArray(images) && images.length > 0) {
 
             const tempFirst = images[0];
@@ -41,7 +41,7 @@ function PropertyCard({property}) {
         <div className="flex flex-col p-3">
             <div>Price: ${property.L_SystemPrice}</div>
             <div>{property.L_Address}</div>
-            <div>{property.L_City}, {property.L_State}, {property.L_Zip}</div>
+            <div>{property.L_City}, {property.L_State} {property.L_Zip}</div>
             <div>{property.L_Keyword2} beds</div>
             <div>{parseInt(property.LM_Dec_3)} baths</div>
             <div>{property.LM_Int2_3} sq ft</div>

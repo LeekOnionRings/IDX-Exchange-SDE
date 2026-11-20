@@ -34,14 +34,18 @@ function ListingsPage() {
     }
 
     //Filter variables
-    const [clickID, setClickID] = useState(false);
+    //const [clickID, setClickID] = useState(false);
+    const [searchTrigger, setSearchTrigger] = useState(0);
 
 
     useEffect(() => {
+
+        let ignore = false;
+
         async function loadFunction() {
             try {
 
-                setClickID(false);
+                //setClickID(false);
                 setLoadingState(true);
                 setErrorState(null);
                 setIsPaginationHidden(false);
@@ -49,7 +53,10 @@ function ListingsPage() {
                 //Cleans query so empty filter values aren't sent to API
                 const cleanedQuery = Object.fromEntries(
                     Object.entries(query).filter(
-                        ([key, value]) => value !== '' && value !== null && value !== undefined
+                        ([key, value]) => 
+                            value !== '' && 
+                            value !== null && 
+                            value !== undefined
                     )
                 );
                 cleanedQuery.limit = query.limit;
@@ -60,23 +67,38 @@ function ListingsPage() {
                 if(!data) {
                     throw new Error("No data returned from fetchProperties!");
                 }
-                setProperties(data.results);
-                setTotal(data.total);
+
+                //Only update state if this is the latest effect
+                if (!ignore) {
+                    setProperties(data.results);
+                    setTotal(data.total);
+                    //return;
+                }
 
             } catch(error) {
-                setErrorState("Can't load properties :(", error);
+                if(!ignore) {
+                    setErrorState("Can't load properties :(", error);
+                }
             } finally {
-                setLoadingState(false);
+                if(!ignore) {
+                    setLoadingState(false);
+                }
             }
         }
+        
         loadFunction();
-    }, [clickID, currentPage]);
+
+        return () => {
+            ignore = true;
+        };
+
+    }, [searchTrigger, currentPage]);
 
 
     if(loadingState) return <div>LOADING...</div>
     if(errorState) return (
         <>
-        <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
+        <PropertyFilters query={query} setQuery={setQuery} setSearchTrigger={setSearchTrigger} setCurrentPage={setCurrentPage}></PropertyFilters>
         <div>ERROR: {errorState}</div>
         <div>Please enter valid input!</div>
         </>
@@ -90,7 +112,7 @@ function ListingsPage() {
 
         {!loadingState && !errorState && properties.length === 0 && (
             <>
-            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
+            <PropertyFilters query={query} setQuery={setQuery} setSearchTrigger={setSearchTrigger} setCurrentPage={setCurrentPage}></PropertyFilters>
             <div>Showing {properties.length} of {total} properties</div>
             <div>No properties available! Try searching for something else!</div>
             </>
@@ -101,7 +123,7 @@ function ListingsPage() {
         {!loadingState && !errorState && properties.length > 0 && isPaginationHidden && (
             <>
 
-            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
+            <PropertyFilters query={query} setQuery={setQuery} setSearchTrigger={setSearchTrigger} setCurrentPage={setCurrentPage}></PropertyFilters>
 
             <div>Showing {(currentPage - 1) * itemsPerPage + 1}-{properties.length} of {total} properties</div>
 
@@ -120,7 +142,7 @@ function ListingsPage() {
         {!loadingState && !errorState && properties.length > 0 && !isPaginationHidden && (
             <>
 
-            <PropertyFilters query={query} setQuery={setQuery} setClickID={setClickID} setCurrentPage={setCurrentPage}></PropertyFilters>
+            <PropertyFilters query={query} setQuery={setQuery} setSearchTrigger={setSearchTrigger} setCurrentPage={setCurrentPage}></PropertyFilters>
 
             <div>Showing {(currentPage - 1) * itemsPerPage + 1}-{((currentPage - 1) * itemsPerPage + properties.length)} of {total} properties</div>
 

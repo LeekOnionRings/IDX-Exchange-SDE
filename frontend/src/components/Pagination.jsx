@@ -54,7 +54,7 @@ function Pagination({ currentPage, totalPages, onPageChange, setIsPaginationHidd
         return getPages(currentPage, totalPages, setIsPaginationHidden).map((element, index) => {
             return(
                 <li key={element + index} 
-                    className={`border p-3 cursor-pointer ${element === currentPage ? 'bg-violet-600' : ''}`}
+                    className={`border p-3 cursor-pointer bg-rose-300 ${element === currentPage ? 'bg-sky-600' : ''}`}
                     onClick={() => {
                         if(!isNaN(element)) {
                             window.scrollTo(0, 0);
@@ -85,10 +85,10 @@ function Pagination({ currentPage, totalPages, onPageChange, setIsPaginationHidd
     }
 
     return(
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mt-5 mb-5 text-black font-bold">
             <ul className="flex gap-6 list-none">
 
-                <li className="border p-3 cursor-pointer active:bg-violet-600"
+                <li className="border p-3 cursor-pointer active:bg-sky-600 bg-rose-300"
                     onClick={() => {
                         onPrevious();
                     }}
@@ -98,7 +98,7 @@ function Pagination({ currentPage, totalPages, onPageChange, setIsPaginationHidd
 
                 {generatePages()}
 
-                <li className="border p-3 cursor-pointer active:bg-violet-600"
+                <li className="border p-3 cursor-pointer active:bg-sky-600 bg-rose-300"
                     onClick={() => {
                         onNext();
                     }}

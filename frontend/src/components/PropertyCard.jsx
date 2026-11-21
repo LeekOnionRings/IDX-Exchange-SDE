@@ -31,7 +31,7 @@ function PropertyCard({property}) {
     //Returns a single property card displaying property count, price, address, etc.
     return(
         
-        <div className="flex flex-col bg-white overflow-hidden hover:bg-sky-700">
+        <div className="flex flex-col border text-black font-bold bg-rose-200 overflow-hidden hover:bg-sky-600">
             <img 
                 src={firstImage ? firstImage : placeholderImage}
                 className="h-48 w-full object-cover"
@@ -39,7 +39,7 @@ function PropertyCard({property}) {
             />
 
         <div className="flex flex-col p-3">
-            <div>Price: ${property.L_SystemPrice}</div>
+            <div>${property.L_SystemPrice}</div>
             <div>{property.L_Address}</div>
             <div>{property.L_City}, {property.L_State} {property.L_Zip}</div>
             <div>{property.L_Keyword2} beds</div>

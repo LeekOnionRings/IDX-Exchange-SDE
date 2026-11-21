@@ -27,29 +27,36 @@ function PropertyFilters({ query, setQuery, setSearchTrigger, setCurrentPage }) 
     return(
         <>
 
-        <div className="flex flex-row">
+        <div className="flex-1 items-center border text-black font-bold bg-rose-300">
 
             <form>
-                <label htmlFor="city-filter">City</label>
-                <input
-                    id="city-filter"
-                    name="city"
-                    placeholder=" ex: Irvine"
-                    onChange={(e) => setQuery({...query, city: e.target.value})}
-                />  
 
-                <label htmlFor="zipcode-filter">Zipcode</label>
-                <input
-                    id="zipcode-filter"
-                    name="zipCode"
-                    placeholder=" ex: 90210"
-                    inputMode="numeric"
-                    onChange={(e) => setQuery({...query, zipcode: e.target.value})}
-                />  
-
-                
-                    <label htmlFor="minPrice-filter">Minimum Price </label>
+                <div className="">
+                    <label className="mr-2" htmlFor="city-filter">City</label>
                     <input
+                        className="mr-2 ml-21 bg-gray-200 border"
+                        id="city-filter"
+                        name="city"
+                        placeholder=" ex: Irvine"
+                        onChange={(e) => setQuery({...query, city: e.target.value})}
+                    />  
+
+                    <label className="mr-2 ml-28" htmlFor="zipcode-filter">Zipcode</label>
+                    <input
+                        className="mr-2 ml-18 bg-gray-200 border"
+                        id="zipcode-filter"
+                        name="zipCode"
+                        placeholder=" ex: 90210"
+                        inputMode="numeric"
+                        onChange={(e) => setQuery({...query, zipcode: e.target.value})}
+                    />  
+                </div>
+                
+
+                <div className="">
+                    <label className="mr-2" htmlFor="minPrice-filter">Minimum Price </label>
+                    <input
+                        className="mr-2 bg-gray-200 border"
                         id="minPrice-filter"
                         name="minPrice"
                         placeholder=" ex: 3750000"
@@ -57,21 +64,22 @@ function PropertyFilters({ query, setQuery, setSearchTrigger, setCurrentPage }) 
                         onChange={(e) => setQuery({...query, minPrice: e.target.value})}
                     />
 
-                    <div>
-                    <label htmlFor="maxPrice-filter">Maximum Price </label>
+                    <label className="mr-2 ml-28" htmlFor="maxPrice-filter">Maximum Price </label>
                     <input
+                        className="mr-2 ml-3 bg-gray-200 border"
                         id="maxPrice-filter"
                         name="maxPrice"
                         placeholder=" ex: 3750000"
                         inputMode="numeric"
                         onChange={(e) => setQuery({...query, maxPrice: e.target.value})}
                     />  
-                    </div>
+                </div>
 
-                <div className="">
 
-                    <label htmlFor="beds-filter">Beds</label>
+                <div className="mr-5 justify-center">
+                    <label className="mr-2" htmlFor="beds-filter">Beds</label>
                     <select    
+                        className="mr-2 bg-gray-200 border"
                         id="beds-filter"
                         onChange={
                         (e) => {
@@ -93,8 +101,9 @@ function PropertyFilters({ query, setQuery, setSearchTrigger, setCurrentPage }) 
                         <option value={"10plus"}>10+</option>
                     </select>
 
-                    <label htmlFor="baths-filter">Baths</label>
+                    <label className="mr-2" htmlFor="baths-filter">Baths</label>
                     <select 
+                        className="mr-2 bg-gray-200 border"
                         id="baths-filter"
                         onChange={
                         (e) => {
@@ -115,28 +124,30 @@ function PropertyFilters({ query, setQuery, setSearchTrigger, setCurrentPage }) 
                         <option value={9}>9</option>
                         <option value={"10plus"}>10+</option>
                     </select>
-
                 </div>
 
-                <div className="flex justify-around">
-                <button 
-                    className="search-button border hover:bg-sky-500"
-                    type="button"  
-                    onClick={handleSubmit} 
-                >   
-                    SEARCH
-                </button>
 
-                <button
-                    className="clear-button border hover:bg-sky-500"
-                    type="button"
-                    onClick={handleClear}
-                >
-                    CLEAR
-                </button>
+                <div className="flex justify-around mb-2 mt-2">
+                    <button 
+                        className="search-button border-2 bg-gray-200 hover:bg-sky-600"
+                        type="button"  
+                        onClick={handleSubmit} 
+                    >   
+                        SEARCH
+                    </button>
+
+                    <button
+                        className="clear-button border-2 bg-gray-200 hover:bg-sky-600"
+                        type="button"
+                        onClick={handleClear}
+                    >
+                        CLEAR
+                    </button>
                 </div>
+
 
             </form>
+
 
         </div>
         </>

@@ -70,6 +70,7 @@ function Pagination({ currentPage, totalPages, onPageChange, setIsPaginationHidd
 
     }
 
+
     const onPrevious = () => {
         if(currentPage > 1) {
             window.scrollTo(0, 0);

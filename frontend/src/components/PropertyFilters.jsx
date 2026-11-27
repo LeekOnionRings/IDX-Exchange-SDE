@@ -1,4 +1,3 @@
-//query, setQuery, setClickID, setCurrentPage
 function PropertyFilters({ query, setQuery, setSearchTrigger, setCurrentPage }) {
 
     const handleSubmit = async (e) => {
